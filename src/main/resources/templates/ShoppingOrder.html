@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Let's Shopping</title>
+<style type="text/css">
+tr {
+	text-align: right;
+}
+</style>
+</head>
+<body>
+	<h1 align="center">Systena Market</h1>
+	<form method="POST" action="/Shopping">
+		<br />
+		<table border="1" width="250px" style="margin: auto;">
+			<tr>
+				<th>商品名</th>
+				<th>値段</th>
+				<th>数量</th>
+			</tr>
+			<th:block th:each="item, itemList : ${itemList.ItemList}">
+				<tr>
+					<td>[[${item.name}]]</td>
+					<td>[[${item.price}]]円</td>
+					<td>
+						<input type="number" min="0" max="100" value="0"
+							th:name="input+ ${itemList.index}" />
+					</td>
+				</tr>
+			</th:block>
+		</table>
+		<br />
+		<div align="center">
+			<input type="submit" name="order" value="買い物かごへ入れる" />
+		</div>
+	</form>
+	<br />
+	<form method="GET" action="/Shopping">
+		<div align="center">
+			<input type="submit" name="orderList" value="かご一覧" />
+		</div>
+		<table border="1" width="250px" style="margin: auto;">
+			<tr>
+				<th>商品名</th>
+				<th>数量</th>
+				<th>金額</th>
+			</tr>
+			<th:block th:each="order : ${orderMap}">
+				<div th:with="orderDetail=${order.value}">
+				<tr>
+					<td>[[${order.key}]]</td>
+					<td><output th:text="${orderDetail.num}" />個</td>
+					<td><output th:text="${orderDetail.price}" />円</td>
+				</tr>
+			</th:block>
+			</th:block>
+		</table>
+		<br />
+		<table border="1" width="250px" style="margin: auto;">
+			<tr>
+				<td>注文金額合計</td>
+				<td><output th:text="${totalAmount}" />円</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
